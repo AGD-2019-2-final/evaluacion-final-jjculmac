@@ -24,6 +24,8 @@ u = LOAD 'data.csv' USING PigStorage(',')
         birthday:CHARARRAY, 
         color:CHARARRAY, 
         quantity:INT);
---
--- >>> Escriba su respuesta a partir de este punto <<<
---
+col = FOREACH u GENERATE firstname, color, SUBSTRING(firstname, 0 ,1) as letra;
+c = FILTER col BY  color MATCHES 'blue' or letra MATCHES 'K'  ;
+d = FOREACH c GENERATE $0, $1 ;
+
+STORE d INTO 'output' USING PigStorage(',');

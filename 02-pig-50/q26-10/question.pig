@@ -17,6 +17,8 @@
 -- 
 fs -rm -f -r output;
 --
+
+--
 u = LOAD 'data.csv' USING PigStorage(',') 
     AS (id:int, 
         firstname:CHARARRAY, 
@@ -24,6 +26,10 @@ u = LOAD 'data.csv' USING PigStorage(',')
         birthday:CHARARRAY, 
         color:CHARARRAY, 
         quantity:INT);
---
--- >>> Escriba su respuesta a partir de este punto <<<
---
+        
+col = FOREACH u GENERATE firstname, SUBSTRING (firstname,0,1) as letra ;
+let = FILTER col BY   letra >= 'M';
+fin= FOREACH let GENERATE firstname;
+
+
+STORE fin INTO 'output' ;

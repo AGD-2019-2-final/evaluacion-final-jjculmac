@@ -14,7 +14,7 @@
 -- Escriba el resultado a la carpeta `output` del directorio actual.
 -- 
 fs -rm -f -r output;
---
+
 u = LOAD 'data.csv' USING PigStorage(',') 
     AS (id:int, 
         firstname:CHARARRAY, 
@@ -22,7 +22,8 @@ u = LOAD 'data.csv' USING PigStorage(',')
         birthday:CHARARRAY, 
         color:CHARARRAY, 
         quantity:INT);
---
--- >>> Escriba su respuesta a partir de este punto <<<
---
+        
+col = FOREACH u GENERATE REGEX_EXTRACT(birthday, '[1][9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]', 0) as fec ;
+pri = FOREACH col GENERATE SUBSTRING (fec,5,7);
 
+STORE pri INTO 'output';

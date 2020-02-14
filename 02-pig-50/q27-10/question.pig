@@ -23,6 +23,7 @@ u = LOAD 'data.csv' USING PigStorage(',')
         birthday:CHARARRAY, 
         color:CHARARRAY, 
         quantity:INT);
---
--- >>> Escriba su respuesta a partir de este punto <<<
---
+        
+col = FOREACH u GENERATE  INDEXOF(firstname,'ia', 0 );
+
+STORE col INTO 'output' ;

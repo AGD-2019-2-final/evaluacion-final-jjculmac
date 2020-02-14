@@ -18,6 +18,7 @@
 -- 
 fs -rm -f -r output;
 --
+
 u = LOAD 'data.csv' USING PigStorage(',') 
     AS (id:int, 
         firstname:CHARARRAY, 
@@ -25,6 +26,8 @@ u = LOAD 'data.csv' USING PigStorage(',')
         birthday:CHARARRAY, 
         color:CHARARRAY, 
         quantity:INT);
---
--- >>> Escriba su respuesta a partir de este punto <<<
---
+col = FOREACH u GENERATE color, SUBSTRING(color, 0 ,1) as letra ;
+c = FILTER col BY  letra  MATCHES 'b' ;
+d = FOREACH c GENERATE $0;
+
+STORE d INTO 'output';
